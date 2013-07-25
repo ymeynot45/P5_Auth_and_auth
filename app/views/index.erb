@@ -1,8 +1,12 @@
-<div class="container">
 
+<div class="container">
   <%if @users %>
     <% @users.each do |user|%>
-    <%= user.name %><br>
+      <%= user.name %>
+      <% if current_user && current_user.access_level.to_i == 2 %>
+        <%= "EDIT" %>
+      <%end%>
+      <br>
     <% end %>
   <% else %>
     <h2>Welcome</h2>
