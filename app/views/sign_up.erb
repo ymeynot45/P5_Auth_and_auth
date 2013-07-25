@@ -4,7 +4,7 @@
     <% if @errors %>
       <% @errors.each do |key, error| %>
         <ul>
-          <li><%=key%>: <%=error %></li>
+          <li><%=key%>: <%=error.first %></li>
         </ul>
       <% end %>
     <% end %>

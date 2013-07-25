@@ -1,4 +1,9 @@
-#!!!! TOOK ABOUT AN HOUR!!!!! not good. V1
+# Fixes Needed
+# I need to validate password length
+# I need to
+# Extra: set up the links for the student editing
+# and add a form field to put in a password that would raise your clearance to 2.
+
 get '/' do
 
   if current_user
@@ -22,7 +27,7 @@ post '/sessions' do
     session[:user_id] = user.id
     redirect to "/"
   else
-    @errors = user.errors.messages
+    @errors = "Username or Email entries were invalid." #hard coded so that they can't tell which one failed. Stops phishing.
     erb :sign_in
   end
 
@@ -45,13 +50,12 @@ end
 
 post '/users' do
   user = User.new(params[:user])
-    if user.valid?
-      user.save
-      session[:user_id] = user.id
-    else
-      @errors = user.errors.messages
-      puts "#{@errors}"
-      erb :sign_up
-    end
-  redirect to "/"
+  if user.valid?
+    user.save
+    session[:user_id] = user.id
+    redirect to "/"
+  else
+    @errors = user.errors.messages
+    erb :sign_up
+  end
 end
