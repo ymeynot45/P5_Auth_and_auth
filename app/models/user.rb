@@ -1,9 +1,10 @@
 class User < ActiveRecord::Base
+  attr_accessor :raw_password
   #TODO : Use bcrypt to store hashed passwords and authenticate users
   validates :name, :email, presence: :true
   validates :email, uniqueness: :true
   validates :email, format: {with: /\b[&.+.A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,6}/, message: "Please enter a valid email address."}
-  #validates :raw_password, :length => {:minimum => 6}
+  validates :raw_password, :length => {:minimum => 6, message: "Please have at least 6 characters in your password."}
 
   def self.authenticate(email, password)
     user = User.find_by_email(email)
@@ -21,7 +22,7 @@ class User < ActiveRecord::Base
   def password=(new_password)
     @password = BCrypt::Password.create(new_password)
     self.password_hash = @password
-    #self.raw_password = new_password
+    self.raw_password = new_password
   end
 
   def self.human_attribute_name(attribute, options = {})

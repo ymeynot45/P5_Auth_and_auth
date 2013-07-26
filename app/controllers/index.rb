@@ -1,6 +1,4 @@
 # Fixes Needed
-# I need to validate password length
-# I need to
 # Extra: set up the links for the student editing
 # and add a form field to put in a password that would raise your clearance to 2.
 
