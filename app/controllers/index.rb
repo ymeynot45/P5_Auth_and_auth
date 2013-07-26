@@ -14,15 +14,15 @@ end
 #----------- SESSIONS -----------
 
 get '/sessions/new' do
-  # render sign-in page
+  @user = User.new
   erb :sign_in
 end
 
 post '/sessions' do
   # sign-in
-  user = User.authenticate(params[:user][:email], params[:user][:password])
-  if user
-    session[:user_id] = user.id
+  @user = User.authenticate(params[:user][:email], params[:user][:password])
+  if @user
+    session[:user_id] = @user.id
     redirect to "/"
   else
     @errors = "Username or Email entries were invalid." #hard coded so that they can't tell which one failed. Stops phishing.
@@ -32,8 +32,6 @@ post '/sessions' do
 end
 
 delete '/sessions/:id' do
-  # user = User.find(params[:id])
-  # user.delete  #I don't think I was supposed to actually Delete the User.
   session[:user_id] = nil
   erb :sign_up
   # sign-out -- invoked via AJAX
@@ -43,17 +41,18 @@ end
 
 get '/users/new' do
   # render sign-up page
+  @user = User.new
   erb :sign_up
 end
 
 post '/users' do
-  user = User.new(params[:user])
-  if user.valid?
-    user.save
-    session[:user_id] = user.id
+  @user = User.new(params[:user])
+  if @user.valid?
+    @user.save
+    session[:user_id] = @user.id
     redirect to "/"
   else
-    @errors = user.errors.messages
+    @errors = @user.errors.messages
     erb :sign_up
   end
 end

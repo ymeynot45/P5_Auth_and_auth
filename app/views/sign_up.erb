@@ -1,27 +1,21 @@
 <div class="container">
   <h1>Sign Up</h1>
-  <div class="errors" >
-    <% if @errors %>
-      <% @errors.each do |key, error| %>
-        <ul>
-          <li><%=key%>: <%=error.first %></li>
-        </ul>
-      <% end %>
-    <% end %>
-  </div>
+
   <form id="sign-up" method="post" action="/users">
     <label class="label" for="name">Name</label>
-    <input type="text" name="user[name]" placeholder="e.g., joe" >
+    <input type="text" name="user[name]" placeholder="e.g., joe" value="<%= @user.name%>">
+    <%if @user.errors[:name].any?%><%=@user.errors[:name]%>
+    <%end%>
     <br>
 
     <label class="label" for="email">Email</label>
-    <input type="email" name="user[email]" placeholder="e.g., me@example.com" >
+    <input type="email" name="user[email]" placeholder="e.g., me@example.com" value="<%= @user.email%>"><%if @user.errors[:email].any?%><%=@user.errors[:email]%>
+    <%end%>
     <br>
 
     <label class="label" for="password">Password</label>
-    <input type="password" name="user[password]" placeholder="6 or more characters">
-    <br>
-
+    <input type="password" name="user[password]" placeholder="6 or more characters"><br><%if @user.errors[:raw_password].any?%><%=@user.errors[:raw_password]%>
+      <br><br><%end%>
     <div class="submit"><input type="submit" value="Sign Up"></div>
   </form>
 
